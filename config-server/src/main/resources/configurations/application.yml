@@ -1,1 +1,12 @@
-#will be used to configure common properties
+eureka:
+  instance:
+    hostname: localhost
+    port: 8761
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
