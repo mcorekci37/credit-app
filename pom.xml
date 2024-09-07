@@ -8,7 +8,12 @@
 	<artifactId>credit-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>credit-app</name>
+	<packaging>pom</packaging>
 	<description>credit-app project using Spring Boot</description>
+
+	<modules>
+		<module>config-server</module>
+	</modules>
 
 	<properties>
 		<java.version>21</java.version>
@@ -74,13 +79,13 @@
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
 					<version>${spring.boot.maven.plugin.version}</version>
-<!--					<executions>-->
-<!--						<execution>-->
-<!--							<goals>-->
-<!--								<goal>repackage</goal>-->
-<!--							</goals>-->
-<!--						</execution>-->
-<!--					</executions>-->
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
