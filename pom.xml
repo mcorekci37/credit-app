@@ -15,6 +15,7 @@
 		<module>config-server</module>
 		<module>discovery-server</module>
 		<module>gateway</module>
+		<module>auth-server</module>
 	</modules>
 
 	<properties>

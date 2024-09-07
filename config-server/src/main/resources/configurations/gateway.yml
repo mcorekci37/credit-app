@@ -7,8 +7,11 @@ spring:
       discovery:
         locator:
           enabled: true
-
-#routes to be defined here
+      routes:
+        - id: auth-service
+          uri: lb://AUTH-SERVER
+          predicates:
+            - Path=/api/v1/auth/**
 
 eureka:
   client:
