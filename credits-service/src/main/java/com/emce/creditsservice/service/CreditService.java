@@ -87,10 +87,15 @@ public class CreditService {
     public List<Credit> listCreditsForUser(Integer userId) {
         return creditRepository.findByUserId(userId);
     }
-    public Page<Credit> listCreditsForUser(Integer userId, int page, int size, String sortBy) {
+    public Page<Credit> listCreditsForUser(Integer userId, String statusStr, int page, int size, String sortBy) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
 
-        return creditRepository.findByUserId(userId, pageable);
+        Status status = Status.getStatus(statusStr);
+        if (status !=null){
+            return creditRepository.findByUserIdAndStatus(userId, status, pageable);
+        }else {
+            return creditRepository.findByUserId(userId, pageable);
+        }
     }
 
     public static LocalDate adjustToWeekday(LocalDate date) {
