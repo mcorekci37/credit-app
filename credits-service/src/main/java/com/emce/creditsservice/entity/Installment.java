@@ -2,6 +2,8 @@ package com.emce.creditsservice.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,9 +30,11 @@ public class Installment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Double amount;
+    private Double dept;
     @ManyToOne
     @JoinColumn(name = "credit_id")
     private Credit credit;
+    @Enumerated(EnumType.STRING)
     private InstallmentStatus status;
     @Column(nullable = false)
     private LocalDate deadline;
