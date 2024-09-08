@@ -16,6 +16,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -33,8 +34,8 @@ public class Credit {
     private Double amount;
     @Column(name="user_id")
     private Integer userId;
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     @OneToMany(mappedBy = "credit", cascade = CascadeType.ALL, orphanRemoval = true)
     Set<Installment> installments;
 }

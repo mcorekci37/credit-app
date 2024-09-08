@@ -16,6 +16,8 @@ spring:
           uri: lb://CREDITS-SERVICE
           predicates:
             - Path=/api/v1/credit/**
+          filters:
+            - AuthenticationFilter
 
 eureka:
   client:

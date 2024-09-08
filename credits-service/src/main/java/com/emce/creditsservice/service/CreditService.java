@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,7 +22,7 @@ public class CreditService {
     private final CreditRepository creditRepository;
 
     public Credit createCredit(CreditRequest request) {
-        LocalDate now = LocalDate.now();
+        LocalDateTime now = LocalDateTime.now();
         Credit credit = Credit.builder()
                 .status(Status.APPROVED)
                 .amount(request.amount())
@@ -53,7 +54,8 @@ public class CreditService {
         // Calculate the remainder to distribute
         BigDecimal remainder = total.subtract(baseAmount.multiply(count));
 
-        var now = LocalDate.now();
+        var now = LocalDateTime.now();
+
 
         // Distribute the base amount and remainder
         for (int i = 0; i < installmentCount; i++) {
@@ -68,7 +70,7 @@ public class CreditService {
             var installment = Installment.builder()
                     .amount(installmentAmount.doubleValue())  // Convert back to double for the entity
                     .status(InstallmentStatus.DEPTOR)
-                    .deadline(now.plusMonths(i + 1))
+                    .deadline(LocalDate.now().plusMonths(i + 1))
                     .createdAt(now)
                     .updatedAt(now)
                     .build();
