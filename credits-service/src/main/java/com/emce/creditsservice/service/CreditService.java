@@ -8,12 +8,14 @@ import com.emce.creditsservice.entity.Status;
 import com.emce.creditsservice.repository.CreditRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
+//import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -21,6 +23,7 @@ import java.util.Set;
 public class CreditService {
     private final CreditRepository creditRepository;
 
+    @Transactional
     public Credit createCredit(CreditRequest request) {
         LocalDateTime now = LocalDateTime.now();
         Credit credit = Credit.builder()
@@ -44,14 +47,11 @@ public class CreditService {
     private Set<Installment> createInstallments(Double totalAmount, Integer installmentCount) {
         Set<Installment> installments = new HashSet<>();
 
-        // Use BigDecimal for precise calculations
         BigDecimal total = BigDecimal.valueOf(totalAmount);
         BigDecimal count = BigDecimal.valueOf(installmentCount);
 
-        // Calculate the base installment amount (rounded to 2 decimal places)
-        BigDecimal baseAmount = total.divide(count, 2, RoundingMode.DOWN);
+        BigDecimal baseAmount = total.divide(count, 2, BigDecimal.ROUND_DOWN);
 
-        // Calculate the remainder to distribute
         BigDecimal remainder = total.subtract(baseAmount.multiply(count));
 
         var now = LocalDateTime.now();
@@ -80,4 +80,8 @@ public class CreditService {
         return installments;
     }
 
+    public List<Credit> listCreditsForUser(Integer userId) {
+        return creditRepository.findByUserId(userId);
+
+    }
 }
