@@ -17,6 +17,7 @@
 		<module>gateway</module>
 		<module>auth-server</module>
 		<module>credits-service</module>
+		<module>payment-service</module>
 	</modules>
 
 	<properties>
