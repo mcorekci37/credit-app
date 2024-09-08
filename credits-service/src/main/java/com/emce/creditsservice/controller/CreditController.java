@@ -63,4 +63,11 @@ public class CreditController {
         return ResponseEntity.ok(credits);
     }
 
+    @GetMapping("/{creditId}")
+    public ResponseEntity<CreditResponse> getCredit(@PathVariable("creditId") Integer creditId){
+        Credit credit = creditService.getCredit(creditId);
+        var response = CreditResponse.fromEntity(credit);
+        return ResponseEntity.ok(response);
+    }
+
 }

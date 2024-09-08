@@ -1,10 +1,13 @@
 package com.emce.creditsservice.service;
 
+import com.emce.creditsservice.config.UserClient;
 import com.emce.creditsservice.dto.CreditRequest;
 import com.emce.creditsservice.entity.Credit;
 import com.emce.creditsservice.entity.Installment;
 import com.emce.creditsservice.entity.InstallmentStatus;
 import com.emce.creditsservice.entity.Status;
+import com.emce.creditsservice.exception.CreditNotFoundException;
+import com.emce.creditsservice.exception.UserNotFoundException;
 import com.emce.creditsservice.repository.CreditRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,10 +30,16 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class CreditService {
+    public static final String CREDIT_NOT_FOUND_MSG = "Credit not found for id %s";
+    public static final String USER_NOT_FOUND_MSG = "User not found for id %s";
     private final CreditRepository creditRepository;
+    private final UserClient userClient;
 
     @Transactional
     public Credit createCredit(CreditRequest request) {
+        if (!userClient.checkExistsById(request.userId())) {
+            throw new UserNotFoundException(String.format(USER_NOT_FOUND_MSG, request.userId()));
+        }
         LocalDateTime now = LocalDateTime.now();
         Credit credit = Credit.builder()
                 .status(Status.APPROVED)
@@ -75,6 +84,7 @@ public class CreditService {
 
             var installment = Installment.builder()
                     .amount(installmentAmount.doubleValue())  // Convert back to double for the entity
+                    .dept(installmentAmount.doubleValue())  // Convert back to double for the entity
                     .status(InstallmentStatus.DEPTOR)
                     .deadline(adjustToWeekday(LocalDate.now().plusMonths(i + 1)))
                     .createdAt(now)
@@ -119,5 +129,11 @@ public class CreditService {
         } else {
             return date;
         }
+    }
+
+    public Credit getCredit(Integer creditId) {
+        Credit credit = creditRepository.findById(creditId).orElseThrow(
+                () -> new CreditNotFoundException(String.format(CREDIT_NOT_FOUND_MSG, creditId)));
+        return credit;
     }
 }
