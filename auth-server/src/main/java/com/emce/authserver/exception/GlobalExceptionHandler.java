@@ -23,6 +23,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleUsernameNotFoundException(UsernameNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseEntity<String> handleAuthenticationException(AuthenticationException ex) {
