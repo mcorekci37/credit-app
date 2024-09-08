@@ -29,5 +29,6 @@ application:
   security:
     jwt:
       secret-key: DEFINESOMESECRETKEYTOSINGTOKENFORSECURINGAPPLICATIONWITHJWTTOKEN
-      expiration: 60000 # 1 min
+#      expiration: 60000 # 1 min
 #      expiration: 900000 # 15 mins
+      expiration: 86400000 # 1 day

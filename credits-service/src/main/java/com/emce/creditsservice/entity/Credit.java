@@ -38,4 +38,12 @@ public class Credit {
     private LocalDateTime updatedAt;
     @OneToMany(mappedBy = "credit", cascade = CascadeType.ALL, orphanRemoval = true)
     Set<Installment> installments;
+
+    public void setInstallments(Set<Installment> installments) {
+        this.installments = installments;
+        for (Installment installment : installments) {
+            installment.setCredit(this);
+        }
+    }
+
 }

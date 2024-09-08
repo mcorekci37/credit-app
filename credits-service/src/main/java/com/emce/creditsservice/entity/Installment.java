@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -35,4 +36,16 @@ public class Installment {
     private LocalDate deadline;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Installment that)) return false;
+        return Objects.equals(id, that.id) && Objects.equals(amount, that.amount) && Objects.equals(deadline, that.deadline);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, amount, deadline);
+    }
 }

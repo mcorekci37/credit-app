@@ -40,10 +40,8 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 //                    //we might call AUTH-SERVER
                         jwtUtil.validateToken(token);
 
-                    } catch (Exception e) {
-                        System.out.println("invalid access...!");
-                        e.printStackTrace();
-                        throw e;
+                    } catch (Exception exception) {
+                        throw exception;
                     }
                 }
 
