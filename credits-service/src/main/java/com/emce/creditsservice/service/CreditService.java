@@ -7,6 +7,10 @@ import com.emce.creditsservice.entity.InstallmentStatus;
 import com.emce.creditsservice.entity.Status;
 import com.emce.creditsservice.repository.CreditRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,10 +84,13 @@ public class CreditService {
 
         return installments;
     }
-
     public List<Credit> listCreditsForUser(Integer userId) {
         return creditRepository.findByUserId(userId);
+    }
+    public Page<Credit> listCreditsForUser(Integer userId, int page, int size, String sortBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
 
+        return creditRepository.findByUserId(userId, pageable);
     }
 
     public static LocalDate adjustToWeekday(LocalDate date) {
