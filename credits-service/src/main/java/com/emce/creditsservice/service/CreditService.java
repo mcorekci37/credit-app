@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -86,6 +87,17 @@ public class CreditService {
     }
     public List<Credit> listCreditsForUser(Integer userId) {
         return creditRepository.findByUserId(userId);
+    }
+    public Page<Credit> listCreditsForUser(Integer userId, String statusStr, LocalDate fromDate, LocalDate toDate, int page, int size, String sortBy) {
+        if (fromDate==null && toDate==null){
+            return this.listCreditsForUser(userId, statusStr, page, size, sortBy);
+        }else {
+            Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+            Status status = Status.getStatus(statusStr);
+            LocalDateTime from = fromDate!=null ? fromDate.atStartOfDay() : null;
+            LocalDateTime to = toDate!=null ? toDate.atTime(LocalTime.MAX) : null;
+            return creditRepository.findByUserIdAndFilters(userId, status, from, to, pageable);
+        }
     }
     public Page<Credit> listCreditsForUser(Integer userId, String statusStr, int page, int size, String sortBy) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));

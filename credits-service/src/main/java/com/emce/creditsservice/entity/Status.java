@@ -1,6 +1,7 @@
 package com.emce.creditsservice.entity;
 
 import lombok.Getter;
+import org.springframework.util.StringUtils;
 
 public enum Status {
     WAITING_APPROVAL(1),
@@ -16,6 +17,7 @@ public enum Status {
         this.status = status;
     }
     public static Status getStatus(String statusInput) {
+        if (!StringUtils.hasText(statusInput)) return null;
         try {
             return Status.valueOf(statusInput.toUpperCase());
         } catch (IllegalArgumentException e) {

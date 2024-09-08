@@ -50,5 +50,17 @@ public class CreditController {
                 .map(CreditResponse::fromEntity);
         return ResponseEntity.ok(credits);
     }
+    @GetMapping("/list/filter/{userId}")
+    public ResponseEntity<Page<CreditResponse>> listCreditsForUser(@PathVariable("userId") Integer userId,
+                                                                   @RequestParam(required = false) String status,
+                                                                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+                                                                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
+                                                                   @RequestParam(defaultValue = "0") String page,
+                                                                   @RequestParam(defaultValue = "2") String size,
+                                                                   @RequestParam(defaultValue = "id") String sortBy){
+        Page<CreditResponse> credits = creditService.listCreditsForUser(userId, status, fromDate, toDate, Integer.valueOf(page), Integer.valueOf(size), sortBy)
+                .map(CreditResponse::fromEntity);
+        return ResponseEntity.ok(credits);
+    }
 
 }
