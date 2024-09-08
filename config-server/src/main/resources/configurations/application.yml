@@ -24,3 +24,10 @@ spring:
           allow_jdbc_metadata_access: false
     show-sql: true
 
+
+application:
+  security:
+    jwt:
+      secret-key: DEFINESOMESECRETKEYTOSINGTOKENFORSECURINGAPPLICATIONWITHJWTTOKEN
+      expiration: 60000 # 1 min
+#      expiration: 900000 # 15 mins

@@ -1,12 +1,11 @@
 server:
-  port: 8090
+  port: 8989
 
 spring:
   application:
-    name: auth-server
+    name: credits-service
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/credits
     username: postgres
     password: 123456
-
