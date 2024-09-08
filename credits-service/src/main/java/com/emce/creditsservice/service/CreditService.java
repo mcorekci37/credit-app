@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 //import java.math.RoundingMode;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -70,7 +71,7 @@ public class CreditService {
             var installment = Installment.builder()
                     .amount(installmentAmount.doubleValue())  // Convert back to double for the entity
                     .status(InstallmentStatus.DEPTOR)
-                    .deadline(LocalDate.now().plusMonths(i + 1))
+                    .deadline(adjustToWeekday(LocalDate.now().plusMonths(i + 1)))
                     .createdAt(now)
                     .updatedAt(now)
                     .build();
@@ -83,5 +84,16 @@ public class CreditService {
     public List<Credit> listCreditsForUser(Integer userId) {
         return creditRepository.findByUserId(userId);
 
+    }
+
+    public static LocalDate adjustToWeekday(LocalDate date) {
+        // Check if the date is Saturday or Sunday
+        if (date.getDayOfWeek() == DayOfWeek.SATURDAY) {
+            return date.plusDays(2);
+        } else if (date.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            return date.plusDays(1);
+        } else {
+            return date;
+        }
     }
 }
