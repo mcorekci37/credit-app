@@ -1,4 +1,4 @@
-package com.emce.paymentservice.entity;
+package com.emce.commons.entity;
 
 import lombok.Getter;
 

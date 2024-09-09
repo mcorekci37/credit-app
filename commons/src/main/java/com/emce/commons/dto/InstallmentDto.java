@@ -1,18 +1,20 @@
-package com.emce.creditsservice.dto;
+package com.emce.commons.dto;
 
-import com.emce.creditsservice.entity.Installment;
+import com.emce.commons.entity.Installment;
 import lombok.Builder;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Builder
-public record InstallmentDto(Integer id, LocalDate dueDate, Double amount) {
+public record InstallmentDto(Integer id, LocalDate dueDate, Double amount, Double dept, String status) {
     public static InstallmentDto fromEntity(Installment installment) {
         return InstallmentDto.builder()
                 .id(installment.getId())
                 .dueDate(installment.getDeadline())
                 .amount(installment.getAmount())
+                .dept(installment.getDept())
+                .status(installment.getStatus().name())
                 .build();
     }
 

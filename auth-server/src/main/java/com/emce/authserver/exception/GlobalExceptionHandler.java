@@ -1,5 +1,6 @@
 package com.emce.authserver.exception;
 
+import com.emce.commons.exception.UserNotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
 package com.emce.creditsservice.repository;
 
-import com.emce.creditsservice.entity.Credit;
-import com.emce.creditsservice.entity.Status;
+import com.emce.commons.entity.Credit;
+import com.emce.commons.entity.Status;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

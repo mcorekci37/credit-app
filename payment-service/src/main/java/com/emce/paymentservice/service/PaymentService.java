@@ -1,10 +1,9 @@
 package com.emce.paymentservice.service;
 
-import com.emce.paymentservice.config.CreditClient;
-import com.emce.paymentservice.dto.CreditResponse;
+import com.emce.commons.dto.CreditResponse;
+import com.emce.commons.entity.Installment;
+import com.emce.commons.entity.InstallmentStatus;
 import com.emce.paymentservice.dto.PaymentRequest;
-import com.emce.paymentservice.entity.Installment;
-import com.emce.paymentservice.entity.InstallmentStatus;
 import com.emce.paymentservice.exception.InstallmentNotFoundException;
 import com.emce.paymentservice.repository.InstallmentRepository;
 import jakarta.ws.rs.NotFoundException;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PaymentService {
 
     private final InstallmentRepository repository;
-    private final CreditClient creditClient;
 
     @Transactional
     public CreditResponse pay(PaymentRequest request) throws NotFoundException {
@@ -34,8 +32,7 @@ public class PaymentService {
             installment.setDept(0D);
             //todo trying to pay more than the dept. to be handled carefully
         }
-        installment = repository.save(installment);
-        CreditResponse credit = creditClient.getCredit(installment.getCredit().getId());
-        return credit;
+        installment = repository.saveAndFlush(installment);
+        return CreditResponse.fromEntity(installment.getCredit());
     }
 }

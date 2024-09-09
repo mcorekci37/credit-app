@@ -12,6 +12,7 @@
 	<description>credit-app project using Spring Boot</description>
 
 	<modules>
+		<module>commons</module>
 		<module>config-server</module>
 		<module>discovery-server</module>
 		<module>gateway</module>
@@ -106,19 +107,6 @@
 					<compilerArgs>
 						<arg>-parameters</arg>
 					</compilerArgs>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${spring.boot.maven.plugin.version}</version>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
 				</configuration>
 			</plugin>
 		</plugins>

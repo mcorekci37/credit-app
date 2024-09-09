@@ -1,4 +1,4 @@
-package com.emce.paymentservice.entity;
+package com.emce.commons.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -52,5 +52,4 @@ public class Installment {
     public int hashCode() {
         return Objects.hash(id, amount, deadline);
     }
-
 }

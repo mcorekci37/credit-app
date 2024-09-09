@@ -2,12 +2,12 @@ package com.emce.creditsservice.service;
 
 import com.emce.creditsservice.config.UserClient;
 import com.emce.creditsservice.dto.CreditRequest;
-import com.emce.creditsservice.entity.Credit;
-import com.emce.creditsservice.entity.Installment;
-import com.emce.creditsservice.entity.InstallmentStatus;
-import com.emce.creditsservice.entity.Status;
 import com.emce.creditsservice.exception.CreditNotFoundException;
-import com.emce.creditsservice.exception.UserNotFoundException;
+import com.emce.commons.entity.Credit;
+import com.emce.commons.entity.Installment;
+import com.emce.commons.entity.InstallmentStatus;
+import com.emce.commons.entity.Status;
+import com.emce.commons.exception.UserNotFoundException;
 import com.emce.creditsservice.repository.CreditRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
