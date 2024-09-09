@@ -85,6 +85,7 @@ public class CreditService {
             var installment = Installment.builder()
                     .amount(installmentAmount.doubleValue())  // Convert back to double for the entity
                     .dept(installmentAmount.doubleValue())  // Convert back to double for the entity
+                    .interest(0D)
                     .status(InstallmentStatus.DEPTOR)
                     .deadline(adjustToWeekday(LocalDate.now().plusMonths(i + 1)))
                     .createdAt(now)

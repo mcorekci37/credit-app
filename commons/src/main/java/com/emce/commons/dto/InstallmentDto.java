@@ -7,13 +7,14 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Builder
-public record InstallmentDto(Integer id, LocalDate dueDate, Double amount, Double dept, String status) {
+public record InstallmentDto(Integer id, LocalDate dueDate, Double amount, Double dept, Double interest, String status) {
     public static InstallmentDto fromEntity(Installment installment) {
         return InstallmentDto.builder()
                 .id(installment.getId())
                 .dueDate(installment.getDeadline())
                 .amount(installment.getAmount())
                 .dept(installment.getDept())
+                .interest(installment.getInterest())
                 .status(installment.getStatus().name())
                 .build();
     }

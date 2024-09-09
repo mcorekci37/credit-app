@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: interest-service
+  config:
+    import: optional:configserver:http://localhost:8888
