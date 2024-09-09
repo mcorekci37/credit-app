@@ -22,7 +22,7 @@ public class InterestController {
     private final Job job;
 
 
-    @PostMapping
+    @PostMapping("/trigger-batch")
     public void startJob(){
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("startAt", System.currentTimeMillis())
