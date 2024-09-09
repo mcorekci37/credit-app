@@ -19,6 +19,7 @@
 		<module>auth-server</module>
 		<module>credits-service</module>
 		<module>payment-service</module>
+		<module>interest-service</module>
 	</modules>
 
 	<properties>

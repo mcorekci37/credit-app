@@ -31,6 +31,7 @@ public class Installment {
     private Integer id;
     private Double amount;
     private Double dept;
+    private Double interest;
     @ManyToOne
     @JoinColumn(name = "credit_id")
     private Credit credit;

@@ -1,0 +1,20 @@
+server:
+  port: 8991
+
+spring:
+  application:
+    name: interest-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/credits
+    username: postgres
+    password: 123456
+
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
+application:
+  param:
+    interest: 40
