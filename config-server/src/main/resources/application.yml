@@ -1,12 +1,19 @@
 spring:
   profiles:
-    active: native
+#    active: native
+    active: git
   application:
     name: config-server
   cloud:
     config:
       server:
-        native:
-          search-locations: classpath:/configurations
+        bootstrap: true
+#        native:
+#          search-locations: classpath:/configurations
+      composite:
+        - type: git
+          uri: https://github.com/mcorekci37/credit-app/
+        - type: file
+          location: /config-server/src/main/resources/configurations
 server:
   port: 8888
