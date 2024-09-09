@@ -1,6 +1,6 @@
 package com.emce.paymentservice.controller;
 
-import com.emce.paymentservice.dto.CreditResponse;
+import com.emce.commons.dto.CreditResponse;
 import com.emce.paymentservice.dto.PaymentRequest;
 import com.emce.paymentservice.service.PaymentService;
 import lombok.RequiredArgsConstructor;

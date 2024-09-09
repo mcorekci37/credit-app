@@ -1,4 +1,4 @@
-package com.emce.creditsservice.entity;
+package com.emce.commons.entity;
 
 import lombok.Getter;
 import org.springframework.util.StringUtils;

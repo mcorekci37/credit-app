@@ -1,18 +1,19 @@
-package com.emce.creditsservice.dto;
+package com.emce.commons.dto;
 
-import com.emce.creditsservice.entity.Credit;
+import com.emce.commons.entity.Credit;
 import lombok.Builder;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Builder
-public record CreditResponse(Integer userId, Integer creditId, String status, Set<InstallmentDto> installments) {
+public record CreditResponse(Integer userId, Integer creditId, String status, Double amount, Set<InstallmentDto> installments) {
     public static CreditResponse fromEntity(Credit credit) {
         return CreditResponse.builder()
-                .userId(credit.getUserId())
                 .creditId(credit.getId())
+                .userId(credit.getUserId())
                 .status(credit.getStatus().name())
+                .amount(credit.getAmount())
                 .installments(credit.getInstallments().stream().map(InstallmentDto::fromEntity).collect(Collectors.toSet()))
                 .build();
     }

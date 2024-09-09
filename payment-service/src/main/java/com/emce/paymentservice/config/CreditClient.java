@@ -1,6 +1,6 @@
 package com.emce.paymentservice.config;
 
-import com.emce.paymentservice.dto.CreditResponse;
+import com.emce.commons.dto.CreditResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

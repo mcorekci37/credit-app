@@ -1,8 +1,8 @@
 package com.emce.authserver.service;
 
 import com.emce.authserver.entity.UserCredential;
-import com.emce.authserver.exception.UserNotFoundException;
 import com.emce.authserver.repository.UserRepository;
+import com.emce.commons.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

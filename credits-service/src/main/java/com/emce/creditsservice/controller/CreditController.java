@@ -1,9 +1,9 @@
 package com.emce.creditsservice.controller;
 
 import com.emce.creditsservice.dto.CreditRequest;
-import com.emce.creditsservice.dto.CreditResponse;
-import com.emce.creditsservice.entity.Credit;
 import com.emce.creditsservice.service.CreditService;
+import com.emce.commons.dto.CreditResponse;
+import com.emce.commons.entity.Credit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
