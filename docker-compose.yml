@@ -1,12 +1,155 @@
 services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: emce
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: credits
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - postgres
+    restart: unless-stopped
   zipkin:
-    container_name: zipkin-credit-app
     image: openzipkin/zipkin
+    container_name: zipkin
     ports:
       - "9411:9411"
     networks:
-      - zipkin
+      - spring
+
+  discovery-server:
+    image: emce/discovery-server:latest
+    container_name: discovery-server
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    depends_on:
+      zipkin:
+        condition: service_started
+
+  gateway:
+    image: emce/gateway:latest
+    container_name: gateway
+    ports:
+      - "8222:8222"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      zipkin:
+        condition: service_started
+
+  auth-server:
+    image: emce/auth-server:latest
+    container_name: auth-server
+    ports:
+      - "8090:8090"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      zipkin:
+        condition: service_started
+      postgres:
+        condition: service_started
+
+  credits-service:
+    image: emce/credits-service:latest
+    container_name: credits-service
+    ports:
+      - "8989:8989"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      zipkin:
+        condition: service_started
+      postgres:
+        condition: service_started
+
+  payment-service:
+    image: emce/payment-service:latest
+    container_name: payment-service
+    ports:
+      - "8990:8990"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      zipkin:
+        condition: service_started
+      postgres:
+        condition: service_started
+
+  interest-service:
+    image: emce/interest-service:latest
+    container_name: interest-service
+    ports:
+      - "8991:8991"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      zipkin:
+        condition: service_started
+      postgres:
+        condition: service_started
 
 networks:
-  zipkin:
+  postgres:
+    name: postgres
     driver: bridge
+  spring:
+    name: spring
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:

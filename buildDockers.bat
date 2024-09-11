@@ -5,11 +5,6 @@ cd auth-server
 call buildDocker.bat
 cd ..
 
-echo Running config-server/buildDocker.bat
-cd config-server
-call buildDocker.bat
-cd ..
-
 echo Running credits-service/buildDocker.bat
 cd credits-service
 call buildDocker.bat

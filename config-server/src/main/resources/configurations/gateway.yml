@@ -24,6 +24,12 @@ spring:
             - Path=/api/v1/payment/**
           filters:
             - AuthenticationFilter
+        - id: interest-service
+          uri: lb://INTEREST-SERVICE
+          predicates:
+            - Path=/api/v1/interest/**
+          filters:
+            - AuthenticationFilter
 
 eureka:
   client:
