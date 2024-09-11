@@ -1,0 +1,1 @@
+docker build -t emce/credits-service .
