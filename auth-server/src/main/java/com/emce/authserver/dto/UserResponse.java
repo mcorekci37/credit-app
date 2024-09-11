@@ -5,10 +5,11 @@ import com.emce.authserver.entity.UserCredential;
 import lombok.Builder;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Builder
 public record UserResponse(Integer id, String firstName, String lastName, String email,
-                           LocalDate createdAt, LocalDate updatedAt, Role role) {
+                           LocalDateTime createdAt, LocalDateTime updatedAt, Role role) {
     public static UserResponse fromEntity(UserCredential userCredential) {
         return UserResponse.builder()
                 .id(userCredential.getId())

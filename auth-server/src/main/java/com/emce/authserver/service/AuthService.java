@@ -8,6 +8,7 @@ import com.emce.authserver.entity.Role;
 import com.emce.authserver.entity.UserCredential;
 import com.emce.authserver.exception.DuplicateEmailException;
 import com.emce.authserver.repository.UserRepository;
+import com.emce.commons.exception.UserNotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -34,15 +36,13 @@ public class AuthService {
 
 
     public AuthResponse register(RegisterRequest registerRequest) throws DataIntegrityViolationException {
-        LocalDate now = LocalDate.now();
+        LocalDateTime now = LocalDateTime.now();
         var userCredential = UserCredential.builder()
                 .firstName(registerRequest.firstName())
                 .lastName(registerRequest.lastName())
                 .email(registerRequest.email())
                 .password(passwordEncoder.encode(registerRequest.password()))
                 .role(Role.USER)
-                .createdAt(now)
-                .updatedAt(now)
                 .build();
         try {
             userRepository.save(userCredential);
@@ -78,5 +78,21 @@ public class AuthService {
                 throw new CredentialsExpiredException("Token is expired or invalid");
             }
         }
+    }
+
+    public AuthResponse update(RegisterRequest registerRequest) {
+        UserCredential userCredential = userRepository.findByEmail(registerRequest.email()).orElseThrow(() -> new UserNotFoundException("user not found"));
+        userCredential.setFirstName(registerRequest.firstName());
+        try {
+            userRepository.save(userCredential);
+        } catch (DataIntegrityViolationException e) {
+            throw new DuplicateEmailException(String.format("Email already exists! mail: %s", userCredential.getEmail()));
+        }
+        var jwtToken = jwtUtil.generateToken(userCredential);
+        return AuthResponse.builder()
+                .token(jwtToken)
+                .expiresAt(jwtUtil.extractExpiration(jwtToken))
+                .build();
+
     }
 }

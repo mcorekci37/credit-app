@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,5 +43,9 @@ public class AuthController {
     public ResponseEntity<Boolean> checkExists(@PathVariable("userId") Integer userId){
         boolean userCredential = userService.checkExistsById(userId);
         return ResponseEntity.ok(userCredential);
+    }
+    @PutMapping("/update")
+    public ResponseEntity<AuthResponse> updateUser(@RequestBody RegisterRequest registerRequest){
+        return new ResponseEntity<>(authService.update(registerRequest), HttpStatus.OK);
     }
 }
